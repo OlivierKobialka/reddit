@@ -1,19 +1,30 @@
-import { buttonVariants } from "@/components/ui/Button";
-import { cn } from "@/lib/utils";
+import { Icons } from "@/components/Icons";
+import UserAuthForm from "@/components/UserAuthForm";
 import Link from "next/link";
-import { FC } from "react";
-import { Icons } from "./Icons";
 
-const SignIn: FC = () => {
+const SignIn = () => {
     return (
-        <div className="conatiner mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
-            <div className="flex flex-col space-y-2 text-centere">
-                <Icons.logo className="h-6 w-6 mx-auto" />
+        <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
+            <div className="flex flex-col space-y-2 text-center">
+                <Icons.logo className="mx-auto h-6 w-6" />
                 <h1 className="text-2xl font-semibold tracking-tight">
-                    Welcome back!
+                    Welcome back
                 </h1>
-                <p className="text-small max-w-xs"></p>
+                <p className="text-sm max-w-xs mx-auto">
+                    By continuing, you are setting up a Techni Reddit account
+                    and agree to our User Agreement and Privacy Policy.
+                </p>
             </div>
+            <UserAuthForm />
+            <p className="px-8 text-center text-sm text-muted-foreground">
+                New to Techni Reddit?{" "}
+                <Link
+                    href="/sign-up"
+                    className="hover:text-brand text-sm underline underline-offset-4"
+                >
+                    Sign Up
+                </Link>
+            </p>
         </div>
     );
 };
