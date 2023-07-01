@@ -20,6 +20,12 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
+    const dropdownMenuOptions = [
+        { label: "Feed", href: "/" },
+        { label: "Create community", href: "/r/create" },
+        { label: "Settings", href: "/settings" },
+    ];
+
     return (
         // User account dropdown menu
         <DropdownMenu>
@@ -51,19 +57,25 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
                 <DropdownMenuSeparator />
 
                 {/* User account dropdown menu items */}
-                <DropdownMenuItem asChild>
-                    <Link href="/">Feed</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/r/create">Create community</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/settings">Settings</Link>
-                </DropdownMenuItem>
+                {dropdownMenuOptions.map((option) => (
+                    <Link href={option.href} key={option.href}>
+                        <DropdownMenuItem className="cursor-pointer">
+                            {option.label}
+                        </DropdownMenuItem>
+                    </Link>
+                ))}
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem
+                    onSelect={(event) => {
+                        event.preventDefault();
+                        signOut({
+                            callbackUrl: `${window.location.origin}/sign-in`,
+                        });
+                    }}
+                    className="cursor-pointer"
+                >
                     Sign out
                 </DropdownMenuItem>
             </DropdownMenuContent>
