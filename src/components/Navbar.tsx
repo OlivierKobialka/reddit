@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { Icons } from "./Icons";
+import { buttonVariants } from "./ui/Button";
 
 const Navbar = async () => {
     return (
@@ -13,6 +14,11 @@ const Navbar = async () => {
                         Techni Reddit
                     </p>
                 </Link>
+
+                {/* search bar */}
+
+                {/* auth */}
+                <Link href="/sign-in" className={buttonVariants()}>Sign in</Link>
             </div>
         </div>
     );
