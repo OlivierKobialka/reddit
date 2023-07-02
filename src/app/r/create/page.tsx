@@ -11,8 +11,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Page = () => {
-    const [input, setInput] = useState<string>("");
     const router = useRouter();
+    const [input, setInput] = useState<string>("");
+    const { loginToast } = useCustomToasts();
 
     const { mutate: createCommunity, isLoading } = useMutation({
         mutationFn: async () => {
@@ -21,8 +22,40 @@ const Page = () => {
             };
 
             const { data } = await axios.post("/api/subreddit", payload);
-
             return data as string;
+        },
+        onError: (err) => {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 409) {
+                    return toast({
+                        title: "Subreddit already exists.",
+                        description: "Please choose a different name.",
+                        variant: "destructive",
+                    });
+                }
+
+                if (err.response?.status === 422) {
+                    return toast({
+                        title: "Invalid subreddit name.",
+                        description:
+                            "Please choose a name between 3 and 21 letters.",
+                        variant: "destructive",
+                    });
+                }
+
+                if (err.response?.status === 401) {
+                    return loginToast();
+                }
+            }
+
+            toast({
+                title: "There was an error.",
+                description: "Could not create subreddit.",
+                variant: "destructive",
+            });
+        },
+        onSuccess: (data) => {
+            router.push(`/r/${data}`);
         },
     });
 
@@ -56,12 +89,16 @@ const Page = () => {
                 </div>
 
                 <div className="flex justify-end gap-4">
-                    <Button variant="subtle" onClick={() => router.back()}>
+                    <Button
+                        disabled={isLoading}
+                        variant="subtle"
+                        onClick={() => router.back()}
+                    >
                         Cancel
                     </Button>
                     <Button
                         isLoading={isLoading}
-                        disabled={input.length < 3}
+                        disabled={input.length === 0}
                         onClick={() => createCommunity()}
                     >
                         Create Community
