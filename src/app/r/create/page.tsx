@@ -59,7 +59,7 @@ const Page = () => {
                     <Button variant="subtle" onClick={() => router.back()}>
                         Cancel
                     </Button>
-                    <Button>Create Community</Button>
+                    <Button isLoading={isLoading} disabled={input.length < 3} onClick={() => createCommunity()}>Create Community</Button>
                 </div>
             </div>
         </div>
