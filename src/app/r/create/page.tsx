@@ -84,6 +84,8 @@ const Page = () => {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             className="pl-6"
+                            maxLength={21}
+                            minLength={3}
                         />
                     </div>
                 </div>
@@ -98,7 +100,7 @@ const Page = () => {
                     </Button>
                     <Button
                         isLoading={isLoading}
-                        disabled={input.length === 0}
+                        disabled={input.length < 3 || input.length > 21}
                         onClick={() => createCommunity()}
                     >
                         Create Community
