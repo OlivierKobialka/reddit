@@ -4,11 +4,13 @@ import { Toaster } from "@/components/ui/Toaster";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Techni Reddit",
     description:
         "A Reddit made for Cheatsheets in TechniSchools built with Next.js and TypeScript.",
+    themeColor: "#ffffff",
 };
 
 const inter = Inter({ subsets: ["latin"] });

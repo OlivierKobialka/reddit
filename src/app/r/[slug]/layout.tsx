@@ -1,22 +1,29 @@
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
-// import ToFeedButton from "@/components/ToFeedButton";
+import ToFeedButton from "@/components/ToFeedButton";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { format } from "date-fns";
+import { format } from "date-fns"; // check that library
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
+export const metadata: Metadata = {
+    title: "Techni Reddit",
+    description:
+        "A Reddit made for Cheatsheets in TechniSchools built with Next.js and TypeScript.",
+};
+
 const Layout = async ({
     children,
     params: { slug },
 }: {
-    children: React.ReactNode;
+    children: ReactNode;
     params: { slug: string };
 }) => {
     const session = await getAuthSession();
+
     const subreddit = await db.subreddit.findFirst({
         where: { name: slug },
         include: {
@@ -37,10 +44,11 @@ const Layout = async ({
                       name: slug,
                   },
                   user: {
-                      username: session.user.id,
+                      id: session.user.id,
                   },
               },
           });
+
     //   define if user is subscribed to subreddit smth like boolean
     const isSubscribed = !!subscription;
 
@@ -58,11 +66,14 @@ const Layout = async ({
         <div className="sm:container max-w-7xl mx-auto h-full pt-12">
             <div>
                 {/* button to take us back for UX requirements */}
+                <ToFeedButton />
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
                     <ul className="flex flex-col col-span-2 space-y-6">
                         {children}
                     </ul>
-                    {/* info side bar */}
+
+                    {/* info sidebar */}
                     <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
                         <div className="px-6 py-4">
                             <p className="font-semibold py-3">
@@ -83,7 +94,7 @@ const Layout = async ({
                                     <time
                                         dateTime={subreddit.createdAt.toDateString()}
                                     >
-                                        {/* 
+                                        {/*
                                             more data formats for further development fixes:
                                             dd MMM yyyy
                                             dd MMM yyyy HH:mm
@@ -98,16 +109,15 @@ const Layout = async ({
                                         */}
                                         {format(
                                             subreddit.createdAt,
-                                            "dd MMM yyyy HH:mm"
+                                            "MMMM d, yyyy"
                                         )}
                                     </time>
                                 </dd>
                             </div>
-
                             <div className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Members</dt>
-                                <dd className="text-gray-700">
-                                    {/* 
+                                <dd className="flex items-start gap-x-2">
+                                    {/*
                                         next fix:
                                         1. if memberCount === 1, then show text "Only you"
                                         2. if memberCount === 1000 or next full number, then show text "1k" or "2k" or "1m" and so on
@@ -117,7 +127,8 @@ const Layout = async ({
                                     </div>
                                 </dd>
                             </div>
-                            {/* 
+
+                            {/*
                                 next fix:
                                 if subreddit.creatorId !== session?.user?.id, then show "Creator:       u/username"
                             */}
@@ -137,7 +148,6 @@ const Layout = async ({
                                     subredditName={subreddit.name}
                                 />
                             ) : null}
-
                             <Link
                                 className={buttonVariants({
                                     variant: "outline",

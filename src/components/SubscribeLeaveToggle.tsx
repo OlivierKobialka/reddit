@@ -78,6 +78,9 @@ const SubscribeLeaveToggle = ({
                 title: "Error",
                 description: err.response?.data as string,
                 variant: "destructive",
+                style: {
+                    maxHeight: "100px",
+                },
             });
         },
         onSuccess: () => {
