@@ -103,6 +103,29 @@ const Layout = async ({
                                     </time>
                                 </dd>
                             </div>
+
+                            <div className="flex justify-between gap-x-4 py-3">
+                                <dt className="text-gray-500">Members</dt>
+                                <dd className="text-gray-700">
+                                    {/* 
+                                        next fix:
+                                        1. if memberCount === 1, then show text "Only you"
+                                        2. if memberCount === 1000 or next full number, then show text "1k" or "2k" or "1m" and so on
+                                    */}
+                                    <div className="text-gray-900">
+                                        {memberCount}
+                                    </div>
+                                </dd>
+                            </div>
+                            {/* 
+                                next fix:
+                                if subreddit.creatorId !== session?.user?.id, then show "Creator:       u/username"
+                            */}
+                            {subreddit.creatorId === session?.user?.id ? (
+                                <div className="flex justify-between gap-x-4 py-3">
+                                    <p className="text-gray-500">You created this community!</p>
+                                </div>
+                            ) : null}
                         </dl>
                     </div>
                 </div>
