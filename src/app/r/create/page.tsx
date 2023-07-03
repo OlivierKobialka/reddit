@@ -54,7 +54,7 @@ const Page = () => {
                 variant: "destructive",
             });
         },
-        
+
         onSuccess: (data) => {
             router.push(`/r/${data}`);
         },
