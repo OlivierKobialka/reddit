@@ -1,10 +1,11 @@
 "use client";
 
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useForm } from "react-hook-form";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type EditorJS from "@editorjs/editorjs";
 
 interface EditorProps {
     subredditId: string;
@@ -27,7 +28,9 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         },
     });
 
-    //? it's a good idea to initialize the editor only once because 
+    const ref = useRef<EditorJS>();
+
+    //? it's a good idea to initialize the editor only once because
     //! it's a heavy operation and it's not necessary to do it every time the component is rendered.
     const initializeEditor = useCallback(async () => {
         // importing all the possible tools that can be used in the editor
@@ -41,7 +44,26 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         const InlineCode = (await import("@editorjs/inline-code")).default;
         const ImageTool = (await import("@editorjs/image")).default;
 
-        
+        if (!ref.current) {
+            const editor = new EditorJS({
+                holder: "editor",
+                onReady() {
+                    ref.current = editor;
+                },
+                placeholder: "Type here to write your post...",
+                inlineToolbar: true,
+                data: { blocks: [] },
+                tools: {
+                  header: Header,
+                  linkTool: {
+                    class: LinkTool,
+                    config: {
+                      endpoint: '/api/link',
+                    }
+                  }
+                }
+            });
+        }
     }, []);
 
     return (
