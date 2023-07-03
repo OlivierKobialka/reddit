@@ -8,6 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 
 interface EditorProps {
     subredditId: string;
@@ -33,6 +36,8 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     const ref = useRef<EditorJS>();
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const _titleRef = useRef<HTMLTextAreaElement>(null);
+    const pathname = usePathname();
+    const router = useRouter();
 
     //? it's a good idea to initialize the editor only once because
     //! it's a heavy operation and it's not necessary to do it every time the component is rendered.
@@ -128,6 +133,60 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         }
     }, [isMounted, initializeEditor]);
 
+    const { mutate: createPost } = useMutation({
+        mutationFn: async ({
+            title,
+            content,
+            subredditId,
+        }: PostCreationRequest) => {
+            const payload: PostCreationRequest = {
+                subredditId,
+                title,
+                content,
+            };
+            const { data } = await axios.post(
+                "/api/subreddit/post/create",
+                payload
+            );
+
+            return data;
+        },
+        onError: () => {
+            return toast({
+                title: "Something went wrong",
+                description: "Your post was not created, please try again.",
+                variant: "destructive",
+            });
+        },
+
+        onSuccess: () => {
+            //? r/mycommunity/submit => r/mycommunity
+            const newPathname = pathname.split("/").slice(0, -1).join("/");
+            router.push(newPathname);
+
+            router.refresh();
+
+            return toast({
+                title: "Success",
+                description: "Your post was created successfully.",
+            });
+        },
+    });
+
+    async function onSubmit(data: PostCreationRequest) {
+        const blocks = await ref.current?.save();
+
+        const payload: PostCreationRequest = {
+            title: data.title,
+            content: blocks,
+            subredditId,
+        };
+
+        createPost(payload);
+    }
+
+    if (!isMounted) return null;
+
     const { ref: titleRef, ...rest } = register("title");
 
     return (
@@ -135,7 +194,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
             <form
                 id="subreddit-post-form"
                 className="w-fit"
-                onSubmit={handleSubmit((e) => {})}
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="prose prose-stone dark:prose-invert">
                     <TextareaAutosize
