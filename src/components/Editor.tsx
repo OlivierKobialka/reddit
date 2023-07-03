@@ -54,14 +54,24 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
                 inlineToolbar: true,
                 data: { blocks: [] },
                 tools: {
-                  header: Header,
-                  linkTool: {
-                    class: LinkTool,
-                    config: {
-                      endpoint: '/api/link',
-                    }
-                  }
-                }
+                    header: Header,
+                    linkTool: {
+                        class: LinkTool,
+                        config: {
+                            endpoint: "/api/link",
+                        },
+                    },
+                    image: {
+                        class: ImageTool,
+                        config: {
+                            uploader: {
+                                async uploadByFile(file: File) {
+                                  
+                                },
+                            },
+                        },
+                    },
+                },
             });
         }
     }, []);
