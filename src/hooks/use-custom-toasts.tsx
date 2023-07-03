@@ -2,6 +2,7 @@ import { buttonVariants } from "@/components/ui/Button";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 
+// it prevents from unlogged users to access some pages
 export const useCustomToasts = () => {
     const loginToast = () => {
         const { dismiss } = toast({
