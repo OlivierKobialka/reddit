@@ -1,4 +1,4 @@
-// import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
+import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 // import ToFeedButton from "@/components/ToFeedButton";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
@@ -123,9 +123,30 @@ const Layout = async ({
                             */}
                             {subreddit.creatorId === session?.user?.id ? (
                                 <div className="flex justify-between gap-x-4 py-3">
-                                    <p className="text-gray-500">You created this community!</p>
+                                    <dt className="text-gray-500">
+                                        You created this community
+                                    </dt>
                                 </div>
                             ) : null}
+
+                            {/* for conditional check and to prevent from 0 followers on subreddit */}
+                            {subreddit.creatorId !== session?.user?.id ? (
+                                <SubscribeLeaveToggle
+                                    isSubscribed={isSubscribed}
+                                    subredditId={subreddit.id}
+                                    subredditName={subreddit.name}
+                                />
+                            ) : null}
+
+                            <Link
+                                className={buttonVariants({
+                                    variant: "outline",
+                                    className: "w-full mb-6",
+                                })}
+                                href={`r/${slug}/submit`}
+                            >
+                                Create Post
+                            </Link>
                         </dl>
                     </div>
                 </div>
