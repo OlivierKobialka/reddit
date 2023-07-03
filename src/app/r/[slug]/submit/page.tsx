@@ -38,7 +38,7 @@ const page = async ({ params }: PageProps) => {
                 <Button
                     type="submit"
                     className="w-full"
-                    form="subreddit-post-form "
+                    form="subreddit-post-form"
                 >
                     Post
                 </Button>
