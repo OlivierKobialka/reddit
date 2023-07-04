@@ -7,8 +7,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FC, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
 import Post from "./Post";
+import { useSession } from "next-auth/react";
 
 interface PostFeedProps {
     initialPosts: ExtendedPost[];
@@ -64,29 +64,37 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
                 );
 
                 if (index === posts.length - 1) {
+                    // Add a ref to the last post in the list
                     return (
                         <li key={post.id} ref={ref}>
                             <Post
-                                subredditName={post.subreddit.name}
                                 post={post}
                                 commentAmt={post.comments.length}
+                                subredditName={post.subreddit.name}
                                 votesAmt={votesAmt}
+                                currentVote={currentVote}
                             />
                         </li>
                     );
                 } else {
                     return (
-                        <>
-                            <Post
-                                subredditName={post.subreddit.name}
-                                post={post}
-                                commentAmt={post.comments.length}
-                                votesAmt={votesAmt}
-                            />
-                        </>
+                        <Post
+                            key={post.id}
+                            post={post}
+                            commentAmt={post.comments.length}
+                            subredditName={post.subreddit.name}
+                            votesAmt={votesAmt}
+                            currentVote={currentVote}
+                        />
                     );
                 }
             })}
+
+            {isFetchingNextPage && (
+                <li className="flex justify-center">
+                    <Loader2 className="w-6 h-6 text-zinc-500 animate-spin" />
+                </li>
+            )}
         </ul>
     );
 };
