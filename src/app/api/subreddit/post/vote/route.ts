@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PostVoteValidator } from "@/lib/validators/vote";
+import { CachedPost } from "@/types/redis";
 
 const CACHE_AFTER_UPVOTES = 1;
 
@@ -69,10 +70,16 @@ export async function PATCH(req: Request) {
                 return acc;
             }, 0);
 
+            // redis payload
             if (votesAmt >= CACHE_AFTER_UPVOTES) {
-                const cachePayload = {
-                    
-                }
+                const cachePayload: CachedPost = {
+                    authorUsername: post.author.username ?? "",
+                    content: JSON.stringify(post.content),
+                    id: post.id,
+                    title: post.title,
+                    currentVote: voteType,
+                    createdAt: post.createdAt,
+                };
             }
         }
     } catch (error) {}
