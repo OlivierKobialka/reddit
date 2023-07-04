@@ -1,12 +1,12 @@
 "use client";
 
 import { useCustomToasts } from "@/hooks/use-custom-toasts";
+import { cn } from "@/lib/utils";
 import { usePrevious } from "@mantine/hooks";
 import { VoteType } from "@prisma/client";
-import React, { FC, use, useEffect, useState } from "react";
-import { Button } from "../ui/Button";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { FC, useEffect, useState } from "react";
+import { Button } from "../ui/Button";
 
 interface PostVoteClientProps {
     postId: string;

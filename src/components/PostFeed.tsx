@@ -6,9 +6,9 @@ import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { FC, useEffect, useRef } from "react";
 import Post from "./Post";
-import { useSession } from "next-auth/react";
 
 interface PostFeedProps {
     initialPosts: ExtendedPost[];
