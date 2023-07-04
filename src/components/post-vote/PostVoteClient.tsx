@@ -7,6 +7,7 @@ import { VoteType } from "@prisma/client";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import { Button } from "../ui/Button";
+import { useMutation } from "@tanstack/react-query";
 
 interface PostVoteClientProps {
     postId: string;
@@ -27,6 +28,14 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
     useEffect(() => {
         setCurrentVote(initialVote);
     }, [currentVote]);
+
+    const {} = useMutation({
+        mutationFn: async(type: VoteType) => {
+            const payload = {
+                
+            }
+        },
+    })
 
     return (
         <div className="flex sm:flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
