@@ -2,6 +2,8 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PostVoteValidator } from "@/lib/validators/vote";
 
+const CACHE_AFTER_UPVOTES = 1;
+
 export async function PATCH(req: Request) {
     try {
         const body = req.json();
@@ -59,6 +61,19 @@ export async function PATCH(req: Request) {
                     type: voteType,
                 },
             });
+
+            // recouning votes
+            const votesAmt = post.votes.reduce((acc, vote) => {
+                if (vote.type === "UP") return acc + 1;
+                if (vote.type === "DOWN") return acc - 1;
+                return acc;
+            }, 0);
+
+            if (votesAmt >= CACHE_AFTER_UPVOTES) {
+                const cachePayload = {
+                    
+                }
+            }
         }
     } catch (error) {}
 }
