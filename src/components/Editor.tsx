@@ -42,7 +42,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     //? it's a good idea to initialize the editor only once because
     //! it's a heavy operation and it's not necessary to do it every time the component is rendered.
     const initializeEditor = useCallback(async () => {
-        // importing all the possible tools that can be used in the editor
+        // importing all the possible tools i know that can be used in the editor
         const EditorJS = (await import("@editorjs/editorjs")).default;
         const Header = (await import("@editorjs/header")).default;
         const Embed = (await import("@editorjs/embed")).default;
