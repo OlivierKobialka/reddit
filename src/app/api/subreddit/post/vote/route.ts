@@ -84,6 +84,8 @@ export async function PATCH(req: Request) {
                 // hset - set the string value of a hash field
                 await redis.hset(`post:${post.id}`, cachePayload);
             }
+
+            return new Response("Vote updated", { status: 200 });
         }
     } catch (error) {}
 }
