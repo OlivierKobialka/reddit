@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { redis } from "@/lib/redis";
 import { PostVoteValidator } from "@/lib/validators/vote";
 import { CachedPost } from "@/types/redis";
 
@@ -80,6 +81,8 @@ export async function PATCH(req: Request) {
                     currentVote: voteType,
                     createdAt: post.createdAt,
                 };
+                // hset - set the string value of a hash field
+                await redis.hset(`post:${post.id}`, cachePayload);
             }
         }
     } catch (error) {}
