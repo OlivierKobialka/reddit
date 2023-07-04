@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { PostVoteValidator } from "@/lib/validators/vote";
 import { CachedPost } from "@/types/redis";
+import { z } from "zod";
 
 const CACHE_AFTER_UPVOTES = 1;
 
@@ -87,5 +88,45 @@ export async function PATCH(req: Request) {
 
             return new Response("Vote updated", { status: 200 });
         }
-    } catch (error) {}
+
+        await db.vote.create({
+            data: {
+                type: voteType,
+                userId: session.user.id,
+                postId,
+            },
+        });
+
+        // recouning votes
+        const votesAmt = post.votes.reduce((acc, vote) => {
+            if (vote.type === "UP") return acc + 1;
+            if (vote.type === "DOWN") return acc - 1;
+            return acc;
+        }, 0);
+
+        // redis payload
+        if (votesAmt >= CACHE_AFTER_UPVOTES) {
+            const cachePayload: CachedPost = {
+                authorUsername: post.author.username ?? "",
+                content: JSON.stringify(post.content),
+                id: post.id,
+                title: post.title,
+                currentVote: voteType,
+                createdAt: post.createdAt,
+            };
+            await redis.hset(`post:${post.id}`, cachePayload);
+        }
+
+        return new Response("Vote created", { status: 201 });
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return new Response("Invalid POST request data passed", {
+                status: 422,
+            });
+        }
+
+        return new Response("Could not register your vote, please try later!", {
+            status: 500,
+        });
+    }
 }
