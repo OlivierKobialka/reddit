@@ -75,11 +75,11 @@ const Layout = async ({
 
                     {/* info sidebar */}
                     <section className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-                        <details className="px-6 py-4">
+                        <div className="px-6 py-4">
                             <p className="font-semibold py-3">
                                 About r/{subreddit.name}
                             </p>
-                        </details>
+                        </div>
 
                         {/*
                          *  <dl> is a description list
@@ -114,7 +114,7 @@ const Layout = async ({
                                     </time>
                                 </dd>
                             </div>
-                            <details className="flex justify-between gap-x-4 py-3">
+                            <div className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Members</dt>
                                 <dd className="flex items-start gap-x-2">
                                     {/*
@@ -126,18 +126,18 @@ const Layout = async ({
                                         {memberCount}
                                     </div>
                                 </dd>
-                            </details>
+                            </div>
 
                             {/*
                                 next fix:
                                 if subreddit.creatorId !== session?.user?.id, then show "Creator:       u/username"
                             */}
                             {subreddit.creatorId === session?.user?.id ? (
-                                <details className="flex justify-between gap-x-4 py-3">
+                                <div className="flex justify-between gap-x-4 py-3">
                                     <dt className="text-gray-500">
                                         You created this community
                                     </dt>
-                                </details>
+                                </div>
                             ) : null}
 
                             {/* for conditional check and to prevent from 0 followers on subreddit */}

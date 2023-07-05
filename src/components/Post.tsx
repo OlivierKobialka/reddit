@@ -38,7 +38,7 @@ const Post: FC<PostProps> = ({
                     initialVotesAmt={_votesAmt}
                     initialVote={_currentVote?.type}
                 />
-                <details className="w-0 flex-1">
+                <div className="w-0 flex-1">
                     <div className="max-h-40 mt-1 text-xs text-gray-500">
                         {subredditName ? (
                             <>
@@ -71,17 +71,17 @@ const Post: FC<PostProps> = ({
                             <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
                         ) : null}
                     </div>
-                </details>
+                </div>
             </section>
 
-            <details className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
+            <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
                 <a
                     href={`/r/${subredditName}/post/${post.id}`}
                     className="w-fit flex items-center gap-2"
                 >
                     <MessageSquare className="h-4 w-4" /> {commentAmt} comments
                 </a>
-            </details>
+            </div>
         </main>
     );
 };
