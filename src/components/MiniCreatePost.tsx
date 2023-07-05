@@ -18,8 +18,8 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 
     return (
         <li className="overflow-hidden rounded-md bg-white shadow">
-            <div className="h-full px-6 py-4 flex justify-between gap-6">
-                <div className="relative">
+            <section className="h-full px-6 py-4 flex justify-between gap-6">
+                <details className="relative">
                     <UserAvatar
                         user={{
                             name: session?.user?.name || null,
@@ -28,7 +28,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
                     />
 
                     <span className="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-500 outline outline-2 outline-white" />
-                </div>
+                </details>
 
                 <Input
                     readOnly
@@ -47,7 +47,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
                 >
                     <Link2 className="text-zinc-600" />
                 </Button>
-            </div>
+            </section>
         </li>
     );
 };

@@ -54,7 +54,7 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
     });
 
     return (
-        <div className="grid w-full gap-1.5">
+        <section className="grid w-full gap-1.5">
             <Label htmlFor="comment">Your comment</Label>
             <div className="mt-2">
                 <Textarea
@@ -77,7 +77,7 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
                     </Button>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

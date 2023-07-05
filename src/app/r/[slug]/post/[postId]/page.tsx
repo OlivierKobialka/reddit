@@ -42,7 +42,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
     if (!post && !cachedPost) return notFound();
 
     return (
-        <div>
+        <section>
             <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between">
                 <Suspense fallback={<PostVoteShell />}>
                     {/* @ts-expect-error server component */}
@@ -61,7 +61,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                     />
                 </Suspense>
 
-                <div className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
+                <details className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
                     <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
                         Posted by u/
                         {post?.author.username ?? cachedPost.authorUsername}{" "}
@@ -84,15 +84,15 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                         {/* @ts-expect-error Server Component */}
                         <CommentsSection postId={post?.id ?? cachedPost.id} />
                     </Suspense>
-                </div>
+                </details>
             </div>
-        </div>
+        </section>
     );
 };
 
 function PostVoteShell() {
     return (
-        <div className="flex items-center flex-col pr-6 w-20">
+        <section className="flex items-center flex-col pr-6 w-20">
             {/* upvote */}
             <div className={buttonVariants({ variant: "ghost" })}>
                 <ArrowBigUp className="h-5 w-5 text-zinc-700" />
@@ -107,7 +107,7 @@ function PostVoteShell() {
             <div className={buttonVariants({ variant: "ghost" })}>
                 <ArrowBigDown className="h-5 w-5 text-zinc-700" />
             </div>
-        </div>
+        </section>
     );
 }
 

@@ -38,9 +38,9 @@ export default function RootLayout({
                     {/* auth flow */}
                     {authModal}
 
-                    <div className="container max-w-7xl mx-auto h-full pt-12">
+                    <main className="container max-w-7xl mx-auto h-full pt-12">
                         {children}
-                    </div>
+                    </main>
 
                     <Toaster />
                 </Providers>

@@ -30,15 +30,15 @@ const Post: FC<PostProps> = ({
     const pRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className="rounded-md bg-white shadow">
-            <div className="px-6 py-4 flex justify-between">
+        <main className="rounded-md bg-white shadow">
+            <section className="px-6 py-4 flex justify-between">
                 {/* displaying votes */}
                 <PostVoteClient
                     postId={post.id}
                     initialVotesAmt={_votesAmt}
                     initialVote={_currentVote?.type}
                 />
-                <div className="w-0 flex-1">
+                <details className="w-0 flex-1">
                     <div className="max-h-40 mt-1 text-xs text-gray-500">
                         {subredditName ? (
                             <>
@@ -71,18 +71,18 @@ const Post: FC<PostProps> = ({
                             <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
                         ) : null}
                     </div>
-                </div>
-            </div>
+                </details>
+            </section>
 
-            <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
+            <details className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
                 <a
                     href={`/r/${subredditName}/post/${post.id}`}
                     className="w-fit flex items-center gap-2"
                 >
                     <MessageSquare className="h-4 w-4" /> {commentAmt} comments
                 </a>
-            </div>
-        </div>
+            </details>
+        </main>
     );
 };
 

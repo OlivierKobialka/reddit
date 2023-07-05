@@ -70,7 +70,7 @@ const PostComment: FC<PostCommentProps> = ({
     });
 
     return (
-        <div ref={commentRef} className="flex flex-col">
+        <section ref={commentRef} className="flex flex-col">
             <div className="flex items-center">
                 <UserAvatar
                     user={{
@@ -113,7 +113,7 @@ const PostComment: FC<PostCommentProps> = ({
             </div>
 
             {isReplying ? (
-                <div className="grid w-full gap-1.5">
+                <section className="grid w-full gap-1.5">
                     <Label htmlFor="comment">Your comment</Label>
                     <div className="mt-2">
                         <Textarea
@@ -155,9 +155,9 @@ const PostComment: FC<PostCommentProps> = ({
                             </Button>
                         </div>
                     </div>
-                </div>
+                </section>
             ) : null}
-        </div>
+        </section>
     );
 };
 

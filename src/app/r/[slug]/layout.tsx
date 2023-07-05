@@ -63,7 +63,7 @@ const Layout = async ({
     });
 
     return (
-        <div className="sm:container max-w-7xl mx-auto h-full pt-12">
+        <main className="sm:container max-w-7xl mx-auto h-full pt-12">
             <div>
                 {/* button to take us back for UX requirements */}
                 <ToFeedButton />
@@ -74,12 +74,12 @@ const Layout = async ({
                     </ul>
 
                     {/* info sidebar */}
-                    <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-                        <div className="px-6 py-4">
+                    <section className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+                        <details className="px-6 py-4">
                             <p className="font-semibold py-3">
                                 About r/{subreddit.name}
                             </p>
-                        </div>
+                        </details>
 
                         {/*
                          *  <dl> is a description list
@@ -114,7 +114,7 @@ const Layout = async ({
                                     </time>
                                 </dd>
                             </div>
-                            <div className="flex justify-between gap-x-4 py-3">
+                            <details className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Members</dt>
                                 <dd className="flex items-start gap-x-2">
                                     {/*
@@ -126,18 +126,18 @@ const Layout = async ({
                                         {memberCount}
                                     </div>
                                 </dd>
-                            </div>
+                            </details>
 
                             {/*
                                 next fix:
                                 if subreddit.creatorId !== session?.user?.id, then show "Creator:       u/username"
                             */}
                             {subreddit.creatorId === session?.user?.id ? (
-                                <div className="flex justify-between gap-x-4 py-3">
+                                <details className="flex justify-between gap-x-4 py-3">
                                     <dt className="text-gray-500">
                                         You created this community
                                     </dt>
-                                </div>
+                                </details>
                             ) : null}
 
                             {/* for conditional check and to prevent from 0 followers on subreddit */}
@@ -158,10 +158,10 @@ const Layout = async ({
                                 Create Post
                             </Link>
                         </dl>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 
