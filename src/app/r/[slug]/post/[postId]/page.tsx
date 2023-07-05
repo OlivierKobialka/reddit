@@ -44,7 +44,22 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
     return (
         <div>
             <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between">
-                <Suspense fallback={<PostVoteShell />}></Suspense>
+                <Suspense fallback={<PostVoteShell />}>
+                    {/* @ts-expect-error serverside component */}
+                    <PostVoteServer
+                        postId={post?.id ?? cachedPost.id}
+                        getData={async () => {
+                            return await db.post.findUnique({
+                                where: {
+                                    id: params.postId,
+                                },
+                                include: {
+                                    votes: true,
+                                },
+                            });
+                        }}
+                    />
+                </Suspense>
             </div>
         </div>
     );
@@ -57,9 +72,15 @@ function PostVoteShell() {
             <div className={buttonVariants({ variant: "ghost" })}>
                 <ArrowBigUp className="h-5 w-5 text-zinc-700" />
             </div>
+
             {/* score */}
             <div className="text-center py-2 font-medium text-sm text-zinc-900">
                 <Loader2 className="animate-spin h-3 w-3" />
+            </div>
+
+            {/* downvote */}
+            <div className={buttonVariants({ variant: "ghost" })}>
+                <ArrowBigDown className="h-5 w-5 text-zinc-700" />
             </div>
         </div>
     );
