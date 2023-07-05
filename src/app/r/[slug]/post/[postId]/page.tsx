@@ -45,7 +45,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
         <div>
             <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between">
                 <Suspense fallback={<PostVoteShell />}>
-                    {/* @ts-expect-error serverside component */}
+                    {/* @ts-expect-error server component */}
                     <PostVoteServer
                         postId={post?.id ?? cachedPost.id}
                         getData={async () => {
@@ -62,10 +62,9 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                 </Suspense>
 
                 <div className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
-                    <p className="max-h-40 truncate mt-1 text-xs text-gray-500">
+                    <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
                         Posted by u/
-                        {post?.author.username ??
-                            cachedPost.authorUsername}{" "}
+                        {post?.author.username ?? cachedPost.authorUsername}{" "}
                         {formatTimeToNow(
                             new Date(post?.createdAt ?? cachedPost.createdAt)
                         )}
@@ -77,13 +76,13 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                     <EditorOutput
                         content={post?.content ?? cachedPost.content}
                     />
-
                     <Suspense
                         fallback={
                             <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
                         }
                     >
-                        <CommentsSection />
+                        {/* @ts-expect-error Server Component */}
+                        <CommentsSection postId={post?.id ?? cachedPost.id} />
                     </Suspense>
                 </div>
             </div>
@@ -101,7 +100,7 @@ function PostVoteShell() {
 
             {/* score */}
             <div className="text-center py-2 font-medium text-sm text-zinc-900">
-                <Loader2 className="animate-spin h-3 w-3" />
+                <Loader2 className="h-3 w-3 animate-spin" />
             </div>
 
             {/* downvote */}
