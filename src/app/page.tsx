@@ -1,4 +1,4 @@
-import CustomFeed from "@/components/CustomFeed";
+import CustomFeed from "@/components/homepage/CustomFeed";
 import GeneralFeed from "@/components/GeneralFeed";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";

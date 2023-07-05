@@ -1,6 +1,6 @@
-// import CommentsSection from "@/components/CommentsSection";
+import CommentsSection from "@/components/CommentsSection";
 import EditorOutput from "@/components/EditorOutput";
-// import PostVoteServer from '@/components/post-vote/PostVoteServer'
+import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import { buttonVariants } from "@/components/ui/Button";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
@@ -25,12 +25,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
         `post:${params.postId}`
     )) as CachedPost;
 
-    let post:
-        | (Post & {
-              votes: Vote[];
-              Author: User;
-          })
-        | null = null;
+    let post: (Post & { votes: Vote[]; author: User }) | null = null;
 
     if (!cachedPost) {
         post = await db.post.findFirst({
@@ -49,7 +44,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
     return (
         <div>
             <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between">
-                
+                <Suspense fallback={<PostVoteShell />}></Suspense>
             </div>
         </div>
     );
